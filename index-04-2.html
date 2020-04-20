@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Vue Component Comm</title>
+  </head>
+  <body>
+    <div id="app">
+      <child-component v-bind:propsdata="message"></child-component>
+      <child-component-2 v-on:child-event="childEvent"></child-component-2>
+      <child-component-3></child-component-3>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+    <script>
+      var eventBus = new Vue();
+      Vue.component('child-component', {
+        props: ['propsdata'],
+        template: '<p>{{ propsdata }}</p>'
+      });
+      Vue.component('child-component-2', {
+        template: '<button v-on:click="emitEvent">ChildEvent</button>',
+        methods: {
+          emitEvent: function() {
+            this.$emit('child-event');
+          }
+        }
+      });
+      Vue.component('child-component-3', {
+        template: '<button v-on:click="sendData">EventBus</button>',
+        methods: {
+          sendData: function() {
+            eventBus.$emit('triggerEventBus', 'Oh, passed through the EventBus');
+          }
+        }
+      });
+
+      new Vue({
+        el: '#app',
+        data: {
+          message: 'Hello Vue! passed from parent component'
+        },
+        methods: {
+          childEvent: function() {
+            this.message = "Received an event from Child-Component";
+          },
+          onReceive: function(value) {
+            this.message = value;
+          }
+        },
+        created: function() {
+          eventBus.$on('triggerEventBus', this.onReceive);
+        }
+      });
+    </script>
+  </body>
+</html>
