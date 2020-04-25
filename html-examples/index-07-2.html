@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Template - Directives</title>
+  </head>
+  <body>
+    <div id="app">
+      <p>methods: {{ methodsSource }}</p>
+      <p>computed: {{ computedFunc }}</p>
+      <button v-on:click="callMethod">Methods</button>
+      <button v-on:click="callComputed">Computed</button>
+      <p>computeSource: <input v-model="computeSource" /></p>
+
+      <hr />
+      <p>watchSource: <input v-model="watchSource" /></p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+    <script>
+      new Vue({
+        data: {
+          methodsSource: 'Hello Vue.js!',
+          computeSource: 'Hello Vue.js!',
+          watchSource: 'Hello Vue.js!'
+        },
+        methods: {
+          methodsFunc: function() {
+            this.methodsSource = this.methodsSource.split('').reverse().join('');
+            return this.methodsSource;
+          },
+          callMethod: function() {
+            alert(this.methodsFunc());
+          },
+          callComputed: function() {
+            alert(this.computedFunc);
+          }
+        },
+        computed: {
+          computedFunc: function() {
+            return this.computeSource.split('').reverse().join('');
+          }
+        },
+        watch: {
+          watchSource: function(data) {
+            console.log("watchSource has been modified! >>>>>", data)
+          }
+        }
+      }).$mount('#app');
+    </script>
+  </body>
+</html>
