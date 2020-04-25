@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Http Request/Response</title>
+  </head>
+  <body>
+    <div id="vue-resource">
+      <button v-on:click="getData">목록 가져오기(뷰 리소스)</button>
+    </div>
+    <div id="vue-axios">
+      <button v-on:click="getData">목록 가져오기(액시오스)</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.4"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+      var vueResource = new Vue({
+        methods: {
+          getData: function() {
+            this.$http.get('https://raw.githubusercontent.com/joshua1988/doit-vuejs/master/data/demo.json')
+                .then(function(response) {
+                  console.log('vue-resource >>>>>')
+                  console.log(response);
+                  console.log(JSON.parse(response.data))
+                })
+          }
+        }
+      }).$mount('#vue-resource');
+
+      var vueAxios = new Vue({
+        methods: {
+          getData: function() {
+            axios.get('https://raw.githubusercontent.com/joshua1988/doit-vuejs/master/data/demo.json')
+              .then(function(response) {
+                console.log('vue-axios >>>>>')
+                console.log(response);
+              })
+          }
+        }
+      }).$mount('#vue-axios');
+    </script>
+  </body>
+</html>
